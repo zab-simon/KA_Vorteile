@@ -1,173 +1,548 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Karlsruhe IT Driven Development</title>
-<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-<script src="https://unpkg.com/recharts/umd/Recharts.min.js"></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-<script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karlsruhe IT Driven Development</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/recharts/2.10.3/recharts.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(to bottom right, #f9fafb, #f3f4f6);
+            padding: 1rem;
+        }
+        
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            margin-bottom: 1.5rem;
+        }
+        
+        .header h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 0.25rem;
+        }
+        
+        .header p {
+            color: #4b5563;
+            font-size: 0.875rem;
+        }
+        
+        .scenario-selector {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .scenario-selector h2 {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.75rem;
+            font-size: 0.875rem;
+        }
+        
+        .scenario-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.5rem;
+        }
+        
+        .scenario-btn {
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            font-size: 0.75rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f3f4f6;
+            color: #374151;
+        }
+        
+        .scenario-btn:hover {
+            background: #e5e7eb;
+        }
+        
+        .scenario-btn.active {
+            color: white;
+            box-shadow: 0 0 0 3px rgba(0,0,0,0.1);
+        }
+        
+        .kpi-section h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 0.75rem;
+        }
+        
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .kpi-card {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 0.75rem;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .kpi-card h3 {
+            font-weight: 600;
+            font-size: 0.75rem;
+            color: #1f2937;
+        }
+        
+        .kpi-card p {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+        
+        .kpi-value {
+            font-size: 0.875rem;
+            font-weight: 700;
+            margin-top: 0.25rem;
+        }
+        
+        .benefits-section h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 0.75rem;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .benefit-card {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 0.75rem;
+            border: 1px solid #e5e7eb;
+            display: flex;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .benefit-card:hover {
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-color: #93c5fd;
+        }
+        
+        .benefit-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .benefit-text {
+            font-size: 0.875rem;
+            color: #374151;
+            font-weight: 500;
+        }
+        
+        .architecture-section {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 1.25rem;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .architecture-section h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 1rem;
+        }
+        
+        .architecture-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .architecture-box {
+            border-radius: 0.5rem;
+            padding: 1rem;
+        }
+        
+        .architecture-box h3 {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            font-size: 0.875rem;
+        }
+        
+        .architecture-box ul {
+            list-style: none;
+        }
+        
+        .architecture-box li {
+            font-size: 0.75rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .box-blue {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+        }
+        
+        .box-blue h3 {
+            color: #1e3a8a;
+        }
+        
+        .box-blue li {
+            color: #1e40af;
+        }
+        
+        .box-green {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+        }
+        
+        .box-green h3 {
+            color: #166534;
+        }
+        
+        .box-green li {
+            color: #166534;
+        }
+        
+        .box-purple {
+            background: #faf5ff;
+            border: 1px solid #e9d5ff;
+        }
+        
+        .box-purple h3 {
+            color: #6b21a8;
+        }
+        
+        .box-purple li {
+            color: #7c3aed;
+        }
+        
+        .footer {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #4b5563;
+            margin-top: 1.5rem;
+        }
+        
+        svg {
+            width: 100%;
+            height: auto;
+        }
+    </style>
 </head>
-<body class="bg-gray-100">
-<div id="root"></div>
+<body>
+    <div id="root"></div>
 
-<script type="text/babel">
-const {useState} = React;
-const {
-  LineChart, Line, XAxis, YAxis, CartesianGrid,
-  Tooltip, ResponsiveContainer
-} = Recharts;
+    <script type="text/babel">
+        const { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } = window.Recharts;
 
-function Dashboard() {
-  const [selectedScenario,setSelectedScenario]=useState("baseline");
+        const Dashboard = () => {
+            const [selectedScenario, setSelectedScenario] = React.useState('baseline');
 
-  const generateProjection=(baseline,scenario)=>{
-    const arr=Array.from({length:31},(_,i)=>({
-      year:2025+i,baseline:baseline*Math.pow(1.02,i)
-    }));
-    arr.forEach(o=>{
-      const i=o.year-2025, p=i/30;
-      o.value= scenario==="openagi"?baseline*Math.pow(1.05,i):
-               scenario==="talent"?baseline*Math.pow(1.048,i):
-               scenario==="investment"?baseline*Math.pow(1.052,i):
-               scenario==="crisis"?baseline*(1+(p*0.5-0.15)*(1-Math.cos(p*Math.PI))):
-               o.baseline;
-    });
-    return arr;
-  };
+            const generateProjection = (baselineValue, scenario) => {
+                const years = Array.from({ length: 31 }, (_, i) => ({
+                    year: 2025 + i,
+                    baseline: baselineValue * Math.pow(1.02, i),
+                }));
 
-  const kpis=[
-    {name:"City GDP Growth",unit:"€ B",baseline:28,color:"#3b82f6"},
-    {name:"Private Investment",unit:"€ M/y",baseline:150,color:"#10b981"},
-    {name:"Gov Funding",unit:"€ M/y",baseline:85,color:"#f59e0b"},
-    {name:"High-Skill Workers",unit:"k",baseline:45,color:"#8b5cf6"},
-    {name:"Employment Rate",unit:"%",baseline:92,color:"#ec4899"},
-    {name:"Innovation Index",unit:"0-100",baseline:52,color:"#06b6d4"},
-    {name:"Infrastructure Efficiency",unit:"0-100",baseline:65,color:"#14b8a6"},
-    {name:"Public Service Effectiveness",unit:"0-100",baseline:72,color:"#f97316"},
-    {name:"Active Startups",unit:"count",baseline:120,color:"#6366f1"},
-    {name:"Citizen Satisfaction",unit:"/100",baseline:70,color:"#ef4444"},
-  ];
+                years.forEach(y => {
+                    const yearIndex = y.year - 2025;
+                    const progress = yearIndex / 30;
+                    
+                    switch(scenario) {
+                        case 'openagi':
+                            y.value = baselineValue * Math.pow(1.05, yearIndex);
+                            break;
+                        case 'talent':
+                            y.value = baselineValue * Math.pow(1.048, yearIndex);
+                            break;
+                        case 'investment':
+                            y.value = baselineValue * Math.pow(1.052, yearIndex);
+                            break;
+                        case 'crisis':
+                            y.value = baselineValue * (1 + (progress * 0.5 - 0.15) * (1 - Math.cos(progress * Math.PI)));
+                            break;
+                        default:
+                            y.value = y.baseline;
+                    }
+                });
+                return years;
+            };
 
-  const scenarios=[
-    {id:"baseline",label:"Baseline",color:"#9ca3af"},
-    {id:"openagi",label:"OpenAGI Foundation",color:"#3b82f6"},
-    {id:"talent",label:"Talent Influx",color:"#10b981"},
-    {id:"investment",label:"Investment Boom",color:"#f59e0b"},
-    {id:"crisis",label:"Economic Crisis",color:"#ef4444"},
-  ];
+            const kpis = [
+                { name: 'City GDP Growth', unit: '€ Billion', baseline: 28, color: '#3b82f6' },
+                { name: 'Private Investment Inflows', unit: '€ Million/Year', baseline: 150, color: '#10b981' },
+                { name: 'Government Funding', unit: '€ Million/Year', baseline: 85, color: '#f59e0b' },
+                { name: 'High-Skill Workers', unit: 'Thousands', baseline: 45, color: '#8b5cf6' },
+                { name: 'Employment Rate', unit: '%', baseline: 92, color: '#ec4899' },
+                { name: 'Innovation Index', unit: 'Score (0-100)', baseline: 52, color: '#06b6d4' },
+                { name: 'Infrastructure Efficiency', unit: 'Score (0-100)', baseline: 65, color: '#14b8a6' },
+                { name: 'Public Service Effectiveness', unit: 'Score (0-100)', baseline: 72, color: '#f97316' },
+                { name: 'Active Startups', unit: 'Count', baseline: 120, color: '#6366f1' },
+                { name: 'Citizen Satisfaction', unit: '/100', baseline: 70, color: '#ef4444' },
+            ];
 
-  const benefits=Array.from({length:100},(_,i)=>({
-    title:`Strategic Benefit ${i+1}`,icon:"🌐"
-  }));
+            const scenarios = [
+                { id: 'baseline', label: 'Baseline', color: '#9ca3af' },
+                { id: 'openagi', label: 'OpenAGI Foundation', color: '#3b82f6' },
+                { id: 'talent', label: 'Talent Influx', color: '#10b981' },
+                { id: 'investment', label: 'Investment Boom', color: '#f59e0b' },
+                { id: 'crisis', label: 'Economic Crisis', color: '#ef4444' },
+            ];
 
-  const Chart=({kpi,scenario})=>{
-    const data=generateProjection(kpi.baseline,scenario);
-    const g=((data[30].value-data[0].baseline)/data[0].baseline*100).toFixed(0);
-    return(
-      <div className="bg-white p-3 rounded-lg shadow border">
-        <h3 className="font-semibold text-xs">{kpi.name}</h3>
-        <p className="text-xs text-gray-500">{kpi.unit}</p>
-        <p className="text-sm font-bold" style={{color:kpi.color}}>
-          {data[30].value.toFixed(1)}
-          <span className="text-xs text-gray-600"> ({g}% by 2055)</span>
-        </p>
-        <ResponsiveContainer width="100%" height={120}>
-          <LineChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#eee"/>
-            <XAxis dataKey="year" tick={{fontSize:9}}/>
-            <YAxis tick={{fontSize:9}}/>
-            <Tooltip formatter={v=>v.toFixed(1)} labelFormatter={l=>`Year: ${l}`}/>
-            <Line type="monotone" dataKey="value" stroke={kpi.color} strokeWidth={2} dot={false}/>
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
-    );
-  };
+            const benefits = [
+                { title: 'Erhöhung der Investitionsattraktivität der Stadt', icon: '💼' },
+                { title: 'Zuzug hochqualifizierter Fachkräfte und Talente', icon: '🎓' },
+                { title: 'Steigerung des städtischen BIP', icon: '📈' },
+                { title: 'Optimierung von Entscheidungsprozessen und Ressourcenzuweisung', icon: '⚙️' },
+                { title: 'Lobbying zur Erlangung von Bundes- und Landesmitteln', icon: '🏛️' },
+                { title: 'Lobbying zur Gewinnung von Investorenkapital', icon: '💰' },
+                { title: 'Lobbying und Einflussnahme auf Landtag, Bundestag und Europaparlament', icon: '🗳️' },
+                { title: 'Effizienzsteigerung in Verwaltung und öffentlichen Diensten', icon: '📊' },
+                { title: 'Vorherige Prozessmodellierung zur genauen Vorhersage von Ergebnissen', icon: '🔮' },
+                { title: 'Freisetzung menschlicher Ressourcen für kreative und innovative Aufgaben', icon: '💡' },
+                { title: 'Reduzierung von Kosten und Verwaltungsausgaben', icon: '💳' },
+                { title: 'Verbesserung von Infrastrukturplanung und Verkehrssystemen', icon: '🚆' },
+                { title: 'Optimierung von Energie- und Umweltmanagement', icon: '🌱' },
+                { title: 'Unterstützung bei kulturellen und sozialen Projekten', icon: '🎭' },
+                { title: 'Förderung von Bildungs- und Forschungsinitiativen', icon: '📚' },
+                { title: 'Echtzeit-Monitoring von KPIs in allen städtischen Abteilungen', icon: '📡' },
+                { title: 'Dynamische Simulation von Szenarien wie Investitionsboom oder Fachkräftezuwanderung', icon: '🎯' },
+                { title: 'Verbesserung der Notfall- und Krisenmanagementfähigkeiten', icon: '🚨' },
+                { title: 'Erhöhung der Lebensqualität für Bürgerinnen und Bürger', icon: '😊' },
+                { title: 'Integration von Echtzeitdaten aus IoT- und Sensor-Netzwerken', icon: '🔗' },
+                { title: 'Förderung nachhaltiger Stadtentwicklung', icon: '🌍' },
+                { title: 'Verstärkung von Innovations- und Smart-City-Projekten', icon: '🤖' },
+                { title: 'Erhöhung der Transparenz in Entscheidungsprozessen', icon: '👁️' },
+                { title: 'Effiziente Verwaltung von Förderprogrammen', icon: '✅' },
+                { title: 'Frühzeitige Identifikation von Chancen und Risiken', icon: '⚠️' },
+                { title: 'Unterstützung von Startups und Technologiezentren', icon: '🚀' },
+                { title: 'Verbesserung der öffentlichen Sicherheit', icon: '🛡️' },
+                { title: 'Optimierung von Logistik und Transportmanagement', icon: '📦' },
+                { title: 'Reduzierung von Bürokratie durch Automatisierung', icon: '⏱️' },
+                { title: 'Vernetzung mit EU-, Bundes- und Landesbehörden für Fördermittel', icon: '🌐' },
+                { title: 'Echtzeit-Visualisierung von Stadtprojekten und Investitionen', icon: '📐' },
+                { title: 'Stärkung des internationalen Stadtprofils und Partnerschaften', icon: '🤝' },
+                { title: 'Förderung von sozialem Engagement und Bürgerbeteiligung', icon: '👥' },
+                { title: 'Steigerung der Innovationskraft städtischer Projekte', icon: '✨' },
+                { title: 'Verbesserung der Effizienz in städtischen Finanzprozessen', icon: '💵' },
+                { title: 'Simulation von langfristigen wirtschaftlichen Entwicklungen', icon: '📉' },
+                { title: 'Verbesserung der Energieeffizienz und nachhaltigen Ressourcennutzung', icon: '⚡' },
+                { title: 'Unterstützung von Kultur- und Sportveranstaltungen', icon: '🎪' },
+                { title: 'Priorisierung von Infrastrukturprojekten nach Nutzen und Dringlichkeit', icon: '🎖️' },
+                { title: 'Echtzeit-Kollaboration zwischen städtischen Abteilungen', icon: '🔄' },
+                { title: 'Optimierung von Gesundheit- und Sozialdiensten', icon: '🏥' },
+                { title: 'Verstärkung der Forschung und Entwicklung in der Region', icon: '🔬' },
+                { title: 'Unterstützung bei der strategischen Stadtplanung', icon: '🗺️' },
+                { title: 'Erhöhung der Wettbewerbsfähigkeit der Stadt', icon: '🏆' },
+                { title: 'Verbesserung der internen Kommunikation und Zusammenarbeit', icon: '💬' },
+                { title: 'Automatisierte Berichterstellung für Gremien und Fördermittelgeber', icon: '📋' },
+                { title: 'Dynamische Anpassung an gesetzliche Änderungen', icon: '⚖️' },
+                { title: 'Frühzeitige Analyse von Finanzierungsbedarf und Investitionschancen', icon: '🎲' },
+                { title: 'Unterstützung von Bürgerinitiativen und NGOs', icon: '🤲' },
+                { title: 'Optimierung von Verwaltungsprozessen in allen Dezernaten', icon: '📌' },
+                { title: 'Effiziente Steuerung von Projektrisiken', icon: '🛠️' },
+                { title: 'Simulation von Szenarien zur Stadtentwicklung', icon: '🎬' },
+                { title: 'Förderung der Digitalisierung in Verwaltung und Wirtschaft', icon: '💻' },
+                { title: 'Unterstützung bei der internationalen Projektkoordination', icon: '✈️' },
+                { title: 'Verbesserung der städtischen PR- und Marketingmaßnahmen', icon: '📢' },
+                { title: 'Echtzeit-Überwachung von Umwelt- und Klimaprojekten', icon: '🌡️' },
+                { title: 'Optimierung der Bildungs- und Forschungspartnerschaften', icon: '🎓' },
+                { title: 'Verbesserung der Effizienz in Bau- und Infrastrukturprojekten', icon: '🏗️' },
+                { title: 'Stärkung der strategischen Stadtentwicklung', icon: '🌆' },
+                { title: 'Dynamische Visualisierung von Budget- und Ressourcenflüssen', icon: '💸' },
+                { title: 'Verbesserung der Transparenz für Bürger und Stakeholder', icon: '🔍' },
+                { title: 'Steigerung der Attraktivität für private Investoren', icon: '💎' },
+                { title: 'Frühzeitige Identifikation von Innovationspotenzialen', icon: '🔦' },
+                { title: 'Unterstützung bei Krisen- und Notfallplanung', icon: '🆘' },
+                { title: 'Reduzierung von Planungsfehlern durch Simulation', icon: '✔️' },
+                { title: 'Optimierung des öffentlichen Nahverkehrs', icon: '🚌' },
+                { title: 'Verbesserung der digitalen Verwaltungslösungen', icon: '🖥️' },
+                { title: 'Förderung der regionalen Wirtschaftsentwicklung', icon: '🌱' },
+                { title: 'Echtzeit-Überwachung städtischer KPIs', icon: '📊' },
+                { title: 'Unterstützung bei strategischen Allianzen und Partnerschaften', icon: '🔗' },
+                { title: 'Verbesserung der Energieversorgung und Infrastruktur', icon: '🔌' },
+                { title: 'Optimierung der Abfall- und Wasserwirtschaft', icon: '♻️' },
+                { title: 'Effiziente Ressourcenallokation in allen städtischen Abteilungen', icon: '⚖️' },
+                { title: 'Erhöhung der Attraktivität für Fachkräfte und Unternehmen', icon: '🌟' },
+                { title: 'Verbesserung der Bürgerzufriedenheit und Lebensqualität', icon: '💚' },
+                { title: 'Unterstützung bei internationalen Förderprogrammen', icon: '🌏' },
+                { title: 'Echtzeit-Simulation von Projektauswirkungen', icon: '⚡' },
+                { title: 'Förderung von Innovation und Forschung', icon: '🔭' },
+                { title: 'Optimierung von sozialen Dienstleistungen', icon: '🤝' },
+                { title: 'Verbesserung der internen Effizienz und Transparenz', icon: '💡' },
+                { title: 'Dynamische Visualisierung von städtischen Projekten', icon: '🎨' },
+                { title: 'Priorisierung von Investitionen nach Nutzen und Impact', icon: '🎯' },
+                { title: 'Verbesserung der Umwelt- und Klimaschutzmaßnahmen', icon: '🌿' },
+                { title: 'Förderung von Smart-City-Initiativen', icon: '🏙️' },
+                { title: 'Optimierung der öffentlichen Sicherheit', icon: '👮' },
+                { title: 'Unterstützung bei der Implementierung von Technologieprojekten', icon: '⚙️' },
+                { title: 'Verbesserung der Verwaltung durch Automatisierung', icon: '🤖' },
+                { title: 'Effiziente Steuerung von Infrastrukturprojekten', icon: '🏢' },
+                { title: 'Unterstützung von Bildungsinitiativen und Kulturprojekten', icon: '🎬' },
+                { title: 'Optimierung von Ressourcennutzung und Energieeffizienz', icon: '💡' },
+                { title: 'Verbesserung der Finanzplanung und Budgetkontrolle', icon: '📊' },
+                { title: 'Förderung von Unternehmensgründungen und Startups', icon: '🌱' },
+                { title: 'Verstärkung der internationalen Zusammenarbeit', icon: '🌍' },
+                { title: 'Echtzeit-Kollaboration und Datenanalyse für alle Einheiten', icon: '🔗' },
+                { title: 'Optimierung der städtischen Logistik und Verkehrssysteme', icon: '🚗' },
+                { title: 'Verbesserung der Verwaltungseffizienz und Bürgerdienste', icon: '📱' },
+                { title: 'Dynamische Modellierung von politischen und wirtschaftlichen Szenarien', icon: '🧩' },
+            ];
 
-  return(
-  <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4">
-    <div className="max-w-7xl mx-auto">
-      <h1 className="text-3xl font-bold text-gray-900 mb-1">Karlsruhe IT Driven Development</h1>
-      <p className="text-gray-600 text-sm mb-4">30-Year Projection & Benefits Dashboard</p>
+            const ChartComponent = ({ kpi, scenario }) => {
+                const data = generateProjection(kpi.baseline, scenario);
+                const currentYear = data[0];
+                const finalYear = data[30];
+                const growth = ((finalYear.value - currentYear.baseline) / currentYear.baseline * 100).toFixed(0);
 
-      <div className="bg-white rounded-lg shadow p-4 mb-6 border">
-        <h2 className="font-semibold text-gray-800 mb-3 text-sm">Select Scenario</h2>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
-          {scenarios.map(s=>(
-            <button key={s.id} onClick={()=>setSelectedScenario(s.id)}
-              className={`p-2 rounded-lg text-xs font-medium transition-all ${
-                selectedScenario===s.id?'ring-2 ring-offset-2 text-white':'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
-              style={selectedScenario===s.id?{backgroundColor:s.color}:{}}>
-              {s.label}
-            </button>
-          ))}
-        </div>
-      </div>
+                return (
+                    <div className="kpi-card">
+                        <h3>{kpi.name}</h3>
+                        <p>{kpi.unit}</p>
+                        <div className="kpi-value" style={{ color: kpi.color }}>
+                            {scenario === 'baseline' ? currentYear.baseline.toFixed(1) : finalYear.value.toFixed(1)}
+                            <span style={{ fontSize: '0.75rem', marginLeft: '0.5rem', color: '#4b5563' }}>({growth}% by 2055)</span>
+                        </div>
+                        <ResponsiveContainer width="100%" height={150}>
+                            <LineChart data={data}>
+                                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                                <XAxis dataKey="year" tick={{ fontSize: 9 }} />
+                                <YAxis tick={{ fontSize: 9 }} />
+                                <Tooltip 
+                                    formatter={(value) => value.toFixed(1)}
+                                    labelFormatter={(label) => `Year: ${label}`}
+                                    contentStyle={{ fontSize: 10, borderRadius: 6 }}
+                                />
+                                <Line 
+                                    type="monotone" 
+                                    dataKey="value" 
+                                    stroke={kpi.color} 
+                                    strokeWidth={2}
+                                    dot={false}
+                                />
+                            </LineChart>
+                        </ResponsiveContainer>
+                    </div>
+                );
+            };
 
-      <h2 className="text-xl font-bold text-gray-900 mb-3">10 KPIs (2025-2055)</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3 mb-6">
-        {kpis.map((k,i)=><Chart key={i} kpi={k} scenario={selectedScenario}/>)}
-      </div>
+            return (
+                <div className="container">
+                    <div className="header">
+                        <h1>Karlsruhe IT Driven Development</h1>
+                        <p>30-Year Strategic Projection & City Benefits Analysis</p>
+                    </div>
 
-      <h2 className="text-xl font-bold text-gray-900 mb-3">100 Strategic Benefits</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
-        {benefits.map((b,i)=>(
-          <div key={i} className="bg-white rounded-lg shadow p-3 border hover:shadow-md transition">
-            <div className="flex items-start gap-2">
-              <span className="text-2xl">{b.icon}</span>
-              <p className="text-sm text-gray-700 font-medium">{b.title}</p>
-            </div>
-          </div>
-        ))}
-      </div>
+                    <div className="scenario-selector">
+                        <h2>Select Development Scenario</h2>
+                        <div className="scenario-buttons">
+                            {scenarios.map(scenario => (
+                                <button
+                                    key={scenario.id}
+                                    onClick={() => setSelectedScenario(scenario.id)}
+                                    className={`scenario-btn ${selectedScenario === scenario.id ? 'active' : ''}`}
+                                    style={selectedScenario === scenario.id ? { backgroundColor: scenario.color } : {}}
+                                >
+                                    {scenario.label}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
 
-      <div className="bg-white rounded-lg shadow p-5 border">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Karlsruhe City Architecture (76133)</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-            <h3 className="font-semibold text-blue-900 mb-3 text-sm">Administration & Governance</h3>
-            <ul className="text-xs text-blue-800 space-y-1">
-              <li>• City Council & Senate</li>
-              <li>• Planning Dept</li>
-              <li>• Finance & Budget</li>
-              <li>• Legal & Compliance</li>
-              <li>• Digital Services</li>
-            </ul>
-          </div>
-          <div className="bg-green-50 p-4 rounded-lg border border-green-200">
-            <h3 className="font-semibold text-green-900 mb-3 text-sm">Economic & Innovation</h3>
-            <ul className="text-xs text-green-800 space-y-1">
-              <li>• Business Development</li>
-              <li>• Tech Hub & Startups</li>
-              <li>• Research Institutions</li>
-              <li>• Investment Attraction</li>
-              <li>• Export & Trade</li>
-            </ul>
-          </div>
-          <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
-            <h3 className="font-semibold text-purple-900 mb-3 text-sm">Infrastructure & Services</h3>
-            <ul className="text-xs text-purple-800 space-y-1">
-              <li>• Transportation & Mobility</li>
-              <li>• Utilities & Energy</li>
-              <li>• Social Services</li>
-              <li>• Health & Education</li>
-              <li>• Environment & Sustainability</li>
-            </ul>
-          </div>
-        </div>
-      </div>
+                    <div className="kpi-section">
+                        <h2>10 Key Performance Indicators (2025-2055)</h2>
+                        <div className="kpi-grid">
+                            {kpis.map((kpi, idx) => (
+                                <ChartComponent key={idx} kpi={kpi} scenario={selectedScenario} />
+                            ))}
+                        </div>
+                    </div>
 
-      <div className="mt-6 text-center text-xs text-gray-600">
-        Interactive scenario modeling for Karlsruhe (2025-2055)
-      </div>
-    </div>
-  </div>);
-}
+                    <div className="benefits-section">
+                        <h2>100 Strategic Benefits & Value Points</h2>
+                        <div className="benefits-grid">
+                            {benefits.map((benefit, idx) => (
+                                <div key={idx} className="benefit-card">
+                                    <span className="benefit-icon">{benefit.icon}</span>
+                                    <p className="benefit-text">{benefit.title}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
 
-ReactDOM.createRoot(document.getElementById("root")).render(<Dashboard/>);
-</script>
+                    <div className="architecture-section">
+                        <h2>Karlsruhe City Architecture (76133)</h2>
+                        <div className="architecture-grid">
+                            <div className="architecture-box box-blue">
+                                <h3>Administration & Governance</h3>
+                                <ul>
+                                    <li>• City Council & Senate</li>
+                                    <li>• Department of Planning</li>
+                                    <li>• Finance & Budget</li>
+                                    <li>• Legal & Compliance</li>
+                                    <li>• Digital Services</li>
+                                </ul>
+                            </div>
+                            <div className="architecture-box box-green">
+                                <h3>Economic & Innovation</h3>
+                                <ul>
+                                    <li>• Business Development</li>
+                                    <li>• Tech Hub & Startups</li>
+                                    <li>• Research Institutions</li>
+                                    <li>• Investment Attraction</li>
+                                    <li>• Export & Trade</li>
+                                </ul>
+                            </div>
+                            <div className="architecture-box box-purple">
+                                <h3>Infrastructure & Services</h3>
+                                <ul>
+                                    <li>• Transportation & Mobility</li>
+                                    <li>• Utilities & Energy</li>
+                                    <li>• Social Services</li>
+                                    <li>• Health & Education</li>
+                                    <li>• Environment & Sustainability</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="footer">
+                        <p>Interactive scenario modeling for Karlsruhe's IT-driven urban development strategy (2025-2055)</p>
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<Dashboard />, document.getElementById('root'));
+    </script>
 </body>
 </html>
