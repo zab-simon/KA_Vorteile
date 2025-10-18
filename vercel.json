@@ -1,10 +1,8 @@
 {
-  "buildCommand": "",
-  "outputDirectory": ".",
-  "framework": "static"
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }
-```
-4. **Добавьте файл** `.gitignore`:
-```
-node_modules/
-.env
