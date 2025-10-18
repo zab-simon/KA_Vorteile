@@ -1,0 +1,10 @@
+{
+  "buildCommand": "",
+  "outputDirectory": ".",
+  "framework": "static"
+}
+```
+4. **Добавьте файл** `.gitignore`:
+```
+node_modules/
+.env
